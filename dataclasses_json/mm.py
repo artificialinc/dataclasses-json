@@ -376,7 +376,8 @@ def build_schema(cls: typing.Type[A],
     @post_dump(pass_many=True)
     def _exclude_fields(self, data, many, **kwargs):
         def exclude(k, v) -> bool:
-            if f := self.fields.get(k):
+            if self.fields.get(k):
+                f = self.fields[k]
                 if f.metadata.get("dataclasses_json", {}).get(
                     "exclude", lambda x: False
                 )(v):
